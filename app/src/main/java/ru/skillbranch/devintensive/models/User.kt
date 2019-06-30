@@ -10,7 +10,7 @@ data class User(
     var avatar: String?,
     var rating: Int = 0,
     var respect: Int = 0,
-    val lastVisit: Date? = null,
+    val lastVisit: Date? = Date(),
     val isOnline: Boolean = false
 ) {
     constructor(id: String, firstName: String?, lastName: String?) : this(
@@ -30,11 +30,11 @@ data class User(
     }
 
     companion object Factory {
-        private var lasdId: Int = -1
+        private var lastId: Int = -1
         fun makeUser(fullName: String?): User {
-            lasdId++
+            lastId++
             val (firstName, lastName) = Utils.parseFullName(fullName)
-            return User(id = "$lasdId", firstName = firstName, lastName = lastName)
+            return User(id = "$lastId", firstName = firstName, lastName = lastName)
         }
     }
 
