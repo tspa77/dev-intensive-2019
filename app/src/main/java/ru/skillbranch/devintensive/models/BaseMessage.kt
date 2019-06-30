@@ -19,14 +19,34 @@ abstract class BaseMessage(
             from: User?,
             chat: Chat,
             date: Date = Date(),
-            type: String = "text",
-            payload: Any?
+            type: MessageType = MessageType.TEXT,
+            payload: Any?,
+            isIncoming: Boolean = false
         ): BaseMessage {
             lastId++
             return when (type) {
-                "image" -> ImageMessage("$lastId", from, chat, date = date, image = payload as String)
-                else -> TextMessage("$lastId", from, chat, date = date, text = payload as String)
+                MessageType.IMAGE -> ImageMessage(
+                    "$lastId",
+                    from,
+                    chat,
+                    date = date,
+                    image = payload as String,
+                    isIncoming = isIncoming
+                )
+                MessageType.TEXT -> TextMessage(
+                    "$lastId",
+                    from,
+                    chat,
+                    date = date,
+                    text = payload as String,
+                    isIncoming = isIncoming
+                )
             }
         }
     }
+}
+
+enum class MessageType {
+    IMAGE,
+    TEXT
 }
