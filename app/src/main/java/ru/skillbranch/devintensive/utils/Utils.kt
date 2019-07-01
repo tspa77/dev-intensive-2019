@@ -17,8 +17,15 @@ object Utils {
         return "Pavel Tsygankov"
     }
 
+
     fun toInitials(firstName: String?, lastName: String?): String? {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        return "PT"
+        val initials = (getFirstUpperCaseLetter(firstName).plus(getFirstUpperCaseLetter(lastName)))
+        return when {
+            initials.isBlank() -> null
+            else -> initials
+        }
     }
+
+    fun getFirstUpperCaseLetter(word: String?) =
+        if (word.isNullOrBlank()) "" else word.trim().first().toUpperCase().toString()
 }
