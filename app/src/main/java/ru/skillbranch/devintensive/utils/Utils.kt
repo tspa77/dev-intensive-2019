@@ -1,5 +1,7 @@
 package ru.skillbranch.devintensive.utils
 
+import java.io.File
+
 object Utils {
     fun parseFullName(fullName: String?): Pair<String?, String?> {
 
@@ -28,4 +30,11 @@ object Utils {
 
     fun getFirstUpperCaseLetter(word: String?) =
         if (word.isNullOrBlank()) "" else word.trim().first().toUpperCase().toString()
+
+
+    fun readFileLineByLineUsingForEachLine(fileName: String)
+            = File(fileName).forEachLine { println(it) }
+
 }
+
+

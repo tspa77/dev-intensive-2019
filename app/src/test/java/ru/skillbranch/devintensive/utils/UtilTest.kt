@@ -3,6 +3,9 @@ package ru.skillbranch.devintensive.utils
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import ru.skillbranch.devintensive.utils.Utils.readFileLineByLineUsingForEachLine
+import java.io.File
+import java.nio.file.Paths
 
 class UtilTest {
 
@@ -89,6 +92,25 @@ class UtilTest {
     }
 
 
+
+
+    @Test
+    fun test_readFileLineByLineUsingForEachLine(){
+
+//        readFileLineByLineUsingForEachLine("/transliteration.txt")
+
+
+
+        /**
+         * Created by Turreta.com on 12/6/2017.
+         */
+
+
+            File(ClassLoader.getSystemResource("transliteration.txt").file).forEachLine {
+                println(it)
+
+        }
+    }
 
 
 }
