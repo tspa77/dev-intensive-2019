@@ -1,16 +1,10 @@
-package ru.skillbranch.devintensive
+package ru.skillbranch.devintensive.models
 
-
-import org.junit.Assert.assertEquals
 import org.junit.Test
-import ru.skillbranch.devintensive.models.BaseMessage
-import ru.skillbranch.devintensive.models.Chat
-import ru.skillbranch.devintensive.models.MessageType
+import ru.skillbranch.devintensive.extensions.MessageType
 import ru.skillbranch.devintensive.models.User
-import ru.skillbranch.devintensive.utils.Utils
 
-class Hometask2UnitTest {
-
+class UserTest {
     /**
      * DTO User, Factory
      * Необходимо создать data класс User и реализовать Factory для создания экземпляров класса
@@ -47,20 +41,4 @@ class Hometask2UnitTest {
         println(txtMessage.formatMessage())
         println(imgMessage.formatMessage())
     }
-
-    @Test
-    fun test_parseFullName() {
-        assertEquals("John" to "Silver", Utils.parseFullName("John Silver"))
-        assertEquals(null to null, Utils.parseFullName(null))
-        assertEquals(null to null, Utils.parseFullName(""))
-        assertEquals(null to null, Utils.parseFullName(" "))
-        assertEquals(null to null, Utils.parseFullName("  "))
-        assertEquals(null to null, Utils.parseFullName("   "))
-        assertEquals("John" to null, Utils.parseFullName("John"))
-        assertEquals("John" to null, Utils.parseFullName(" John"))
-        assertEquals("John" to null, Utils.parseFullName(" John "))
-
-    }
-
-
 }

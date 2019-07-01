@@ -1,5 +1,6 @@
 package ru.skillbranch.devintensive.models
 
+import ru.skillbranch.devintensive.extensions.MessageType
 import java.util.*
 
 abstract class BaseMessage(
@@ -46,7 +47,3 @@ abstract class BaseMessage(
     }
 }
 
-enum class MessageType {
-    IMAGE,
-    TEXT
-}
