@@ -26,6 +26,24 @@ class UserTest {
     }
 
 
+    /**
+     * Base Message, AbstractFactory
+     * Необходимо создать абстрактный класс BaseMessage и два его наследника TextMessage и ImageMessage.
+     * Реализовать AbstractFactory для создания экземпляров классов наследников
+     *
+     * Реализуй паттерн AbstractFactory с методом makeMessage(from, chat, date, type, payload, isIncoming = false)
+     * принимающий в качесте аргументов пользователя создавшего сообщение, чат к которому относится сообщение, дата
+     * сообщения и его тип ("text/image"), полезную нагрузку
+     *
+     * Пример:
+     * BaseMessage.makeMessage(user, chat, date, "any text message", "text") //Василий отправил сообщение
+     * "any text message" только что
+     *
+     * BaseMessage.makeMessage(user, chat, date, "https://anyurl.com", "image",true) //Василий получил изображение
+     * "https://anyurl.com" 2 часа назад
+     *
+     */
+
     @Test
     fun test_abstract_factory() {
         val user = User.makeUser("Павел Цыганков")

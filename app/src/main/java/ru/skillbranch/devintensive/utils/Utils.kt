@@ -5,8 +5,7 @@ object Utils {
 
         return if (fullName.isNullOrBlank()) null to null else {
             val parts: List<String>? = fullName?.replace("\\s+".toRegex(), " ").trim().split(" ")
-            // Убирает сдвоенные пробелы с краёв и сдвоенные.
-            // Двойной пробел между именем и фамилией не даёт ожидаемого результата
+            // Убирает пробелы с краёв и сдвоенные, т.к. двойной пробел между в середине не даёт ожидаемого результата
             val firstName = parts?.getOrNull(0)
             val lastName = parts?.getOrNull(1)
             firstName to lastName
