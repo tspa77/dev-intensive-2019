@@ -1,9 +1,8 @@
-package ru.skillbranch.devintensive.Utils
+package ru.skillbranch.devintensive.utils
 
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import ru.skillbranch.devintensive.utils.Utils
 
 class UtilTest {
 
