@@ -84,11 +84,12 @@ class UtilTest {
         assertEquals("J", Utils.getFirstUpperCaseLetter(" john"))
         assertEquals("J", Utils.getFirstUpperCaseLetter("  john "))
         assertEquals("J", Utils.getFirstUpperCaseLetter("  john  doe"))
-        assertEquals(null, Utils.getFirstUpperCaseLetter("   "))
-        assertEquals(null, Utils.getFirstUpperCaseLetter("  "))
-        assertEquals(null, Utils.getFirstUpperCaseLetter(" "))
-        assertEquals(null, Utils.getFirstUpperCaseLetter(""))
-        assertEquals(null, Utils.getFirstUpperCaseLetter(null))
+        assertEquals("", Utils.getFirstUpperCaseLetter("    "))
+        assertEquals("", Utils.getFirstUpperCaseLetter("   "))
+        assertEquals("", Utils.getFirstUpperCaseLetter("  "))
+        assertEquals("", Utils.getFirstUpperCaseLetter(" "))
+        assertEquals("", Utils.getFirstUpperCaseLetter(""))
+        assertEquals("", Utils.getFirstUpperCaseLetter(null))
     }
 
 
