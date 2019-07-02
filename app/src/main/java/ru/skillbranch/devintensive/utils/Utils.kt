@@ -2,6 +2,7 @@ package ru.skillbranch.devintensive.utils
 
 import java.io.File
 
+
 object Utils {
     fun parseFullName(fullName: String?): Pair<String?, String?> {
 
@@ -15,9 +16,24 @@ object Utils {
     }
 
     fun transliteration(payload: String, divider: String = " "): String {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        return "Pavel Tsygankov"
+        val fileName = System.getProperty("user.dir") + "\\src\\main\\res\\raw\\transliteration.txt"
+        val transMap = getTranslitMap(readFileAsLinesUsingReadLines(fileName))
+
+        var transWord = ""
+        for (c in payload) {
+            transWord += when (c.toLowerCase()) {
+                in transMap.keys ->
+                    if (c.isLowerCase()) transMap[c] else
+                        "${transMap[c.toLowerCase()]?.first()?.toUpperCase()}" +
+                                "${transMap[c.toLowerCase()]?.substring(1)}"
+                ' ' -> divider
+                else -> c
+            }
+        }
+        return transWord
     }
+
+
 
 
     fun toInitials(firstName: String?, lastName: String?): String? {
@@ -32,9 +48,19 @@ object Utils {
         if (word.isNullOrBlank()) "" else word.trim().first().toUpperCase().toString()
 
 
-    fun readFileLineByLineUsingForEachLine(fileName: String)
-            = File(fileName).forEachLine { println(it) }
+    fun readFileAsLinesUsingReadLines(fileName: String): List<String> = File(fileName).readLines()
 
+
+    fun getTranslitMap(list: List<String>): Map<Char, String> {
+        val myMap = mutableMapOf<Char, String>()
+        for (s in list) {
+            if (!s.isBlank()) {
+                val (key, value) = s.replace("\"", "").split(": ")
+                myMap[key.single()] = value.dropLast(1)
+            }
+        }
+        return myMap.toMap()
+    }
 }
 
 

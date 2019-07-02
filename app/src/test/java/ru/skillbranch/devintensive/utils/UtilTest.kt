@@ -3,9 +3,9 @@ package ru.skillbranch.devintensive.utils
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import ru.skillbranch.devintensive.utils.Utils.readFileLineByLineUsingForEachLine
-import java.io.File
-import java.nio.file.Paths
+import ru.skillbranch.devintensive.utils.Utils.getTranslitMap
+import ru.skillbranch.devintensive.utils.Utils.readFileAsLinesUsingReadLines
+import ru.skillbranch.devintensive.utils.Utils.transliteration
 
 class UtilTest {
 
@@ -92,25 +92,38 @@ class UtilTest {
     }
 
 
+    @Test
+    fun test_readFileAsLinesUsingReadLines() {
+        val fileName = System.getProperty("user.dir") + "\\src\\main\\res\\raw\\transliteration.txt"
+        val lines = readFileAsLinesUsingReadLines(fileName)
 
+        getTranslitMap(lines)
+    }
+
+
+    /**
+     * *transliteration
+     * Необходимо реализовать утилитный метод transliteration(payload divider) принимающий в качестве аргумента
+     * строку и возвращающий преобразованную строку из латинских символов
+     *
+     * Реализуй метод Utils.transliteration(payload divider) принимающий в качестве аргумента строку
+     * (divider по умолчанию " ") и возвращающий преобразованную строку из латинских символов, словарь символов
+     * соответствия алфовитов доступен в ресурсах к заданию
+     * Пример:
+     * Utils.transliteration("Женя Стереотипов") //Zhenya Stereotipov
+     * Utils.transliteration("Amazing Петр","_") //Amazing_Petr
+     */
 
     @Test
-    fun test_readFileLineByLineUsingForEachLine(){
-
-//        readFileLineByLineUsingForEachLine("/transliteration.txt")
-
-
-
-        /**
-         * Created by Turreta.com on 12/6/2017.
-         */
-
-
-            File(ClassLoader.getSystemResource("transliteration.txt").file).forEachLine {
-                println(it)
-
-        }
+    fun test_transliteration() {
+        assertEquals("", transliteration(""))
+        assertEquals("", transliteration("", "*"))
+        assertEquals("*", transliteration(" ", "*"))
+        assertEquals("Zhenya Stereotipov", transliteration("Женя Стереотипов"))
+        assertEquals("Amazing_Petr", transliteration("Amazing Петр","_"))
+        assertEquals("Pavel`Senyor`Cigankov", transliteration("Павел Senyor Цыганков","`"))
     }
+
 
 
 }
