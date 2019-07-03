@@ -72,15 +72,45 @@ class DateTest {
     fun dateHumanizeDiff_test() {
 //        println(Date())
 //        println(Date().add(-2, TimeUnits.MINUTE))
-        println(Date().add(-45, TimeUnits.DAY).humanizeDiff())
+        println(Date().add(0, TimeUnits.SECOND).humanizeDiff())
+        println(Date().add(-1, TimeUnits.SECOND).humanizeDiff())
+        println(Date().add(-2, TimeUnits.SECOND).humanizeDiff())
+        println(Date().add(-10, TimeUnits.SECOND).humanizeDiff())
 
 
-        println(Date().add(-2, TimeUnits.HOUR).humanizeDiff()) //2 часа назад
-        println(Date().add(-5, TimeUnits.DAY).humanizeDiff()) //5 дней назад
-        println(Date().add(2, TimeUnits.MINUTE).humanizeDiff()) //через 2 минуты
+        println(Date().add(1, TimeUnits.SECOND).humanizeDiff())
+        println(Date().add(2, TimeUnits.SECOND).humanizeDiff())
+        println(Date().add(10, TimeUnits.SECOND).humanizeDiff())
+
+
+        println(Date().add(-45, TimeUnits.SECOND).humanizeDiff())
+        println(Date().add(-2, TimeUnits.MINUTE).humanizeDiff()) //2 часа назад
+        println(Date().add(-5, TimeUnits.MINUTE).humanizeDiff()) //5 дней назад
+        println(Date().add(-6, TimeUnits.MINUTE).humanizeDiff()) //через 2 минуты
+        println(Date().add(-6, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(-21, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(-22, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(-23, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(-25, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(-26, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(-27, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(-6, TimeUnits.DAY).humanizeDiff()) //через 2 минуты
+        println(Date().add(-7, TimeUnits.DAY).humanizeDiff()) //через 7 дней
+        println(Date().add(45, TimeUnits.SECOND).humanizeDiff())
+        println(Date().add(2, TimeUnits.MINUTE).humanizeDiff()) //2 часа назад
+        println(Date().add(5, TimeUnits.MINUTE).humanizeDiff()) //5 дней назад
+        println(Date().add(6, TimeUnits.MINUTE).humanizeDiff()) //через 2 минуты
+        println(Date().add(6, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(21, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(22, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(23, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(25, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(26, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(27, TimeUnits.HOUR).humanizeDiff()) //через 2 минуты
+        println(Date().add(6, TimeUnits.DAY).humanizeDiff()) //через 2 минуты
         println(Date().add(7, TimeUnits.DAY).humanizeDiff()) //через 7 дней
-        println(Date().add(-400, TimeUnits.DAY).humanizeDiff()) //более года назад
-        println(Date().add(400, TimeUnits.DAY).humanizeDiff()) //более чем через год
+//        println(Date().add(-200, TimeUnits.DAY).humanizeDiff()) //более года назад
+//        println(Date().add(-400, TimeUnits.DAY).humanizeDiff()) //более чем через год
     }
 
 
@@ -90,7 +120,8 @@ class DateTest {
         assertEquals("только что", Date().add(-1, TimeUnits.SECOND).humanizeDiff())
         assertEquals("несколько секунд назад", Date().add(-45, TimeUnits.SECOND).humanizeDiff())
         assertEquals("минуту назад", Date().add(-46, TimeUnits.SECOND).humanizeDiff())
-        assertEquals("1 минуту назад", Date().add(-76, TimeUnits.SECOND).humanizeDiff())
+        assertEquals("1 минут назад", Date().add(-76, TimeUnits.SECOND).humanizeDiff())
+//        assertEquals("1 минуту назад", Date().add(-76, TimeUnits.SECOND).humanizeDiff())
         assertEquals("минуту назад", Date().add(-1, TimeUnits.MINUTE).humanizeDiff())
         assertEquals("2 минуты назад", Date().add(-2, TimeUnits.MINUTE).humanizeDiff())
         assertEquals("3 минуты назад", Date().add(-3, TimeUnits.MINUTE).humanizeDiff())
@@ -123,4 +154,6 @@ class DateTest {
         assertEquals("через 4 дня", Date().add(4, TimeUnits.DAY).humanizeDiff())
         assertEquals("через 5 дней", Date().add(5, TimeUnits.DAY).humanizeDiff())
         assertEquals("через 148 дней", Date().add(148, TimeUnits.DAY).humanizeDiff())
-        assertEquals("более чем через год", Date().add(400, TimeUnits.DAY).humanizeDiff())}
+        assertEquals("более чем через год", Date().add(400, TimeUnits.DAY).humanizeDiff())
+    }
+}
