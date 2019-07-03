@@ -17,11 +17,12 @@ class UserTest {
     @Test
     fun test_DTO_UserFactory() {
         val user1 = User.makeUser("John Silver")
-//        val user2 = User.makeUser("John ")
-//        val user3 = User.makeUser(" ")
-//        val user4 = User.makeUser(null)
-        print("$user1")
-//        print("$user1\n$user2\n$user3\n$user4")
+        val user2 = User.makeUser("John ")
+        val user3 = User.makeUser(" ")
+        val user4 = User.makeUser("")
+        val user5 = User.makeUser(null)
+//        print("$user1")
+        print("$user1\n$user2\n$user3\n$user4\n$user5")
 
     }
 
