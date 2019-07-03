@@ -1,7 +1,6 @@
 package ru.skillbranch.devintensive.models
 
 import org.junit.Test
-import ru.skillbranch.devintensive.extensions.MessageType
 import ru.skillbranch.devintensive.models.User
 import java.util.*
 
@@ -51,11 +50,11 @@ class UserTest {
         val user = User.makeUser("Павел Цыганков")
         val txtMessage = BaseMessage.makeMessage(
             user, Chat("OurChat"),
-            payload = "any text message", type = MessageType.TEXT
+            payload = "any text message", type = "text"
         )
         val imgMessage = BaseMessage.makeMessage(
             user, Chat("OurChat"), isIncoming = true,
-            payload = "https://anyurl.com", type = MessageType.IMAGE
+            payload = "https://anyurl.com", type = "image"
         )
 
         println(txtMessage.formatMessage())
