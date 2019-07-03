@@ -3,6 +3,7 @@ package ru.skillbranch.devintensive.models
 import org.junit.Test
 import ru.skillbranch.devintensive.extensions.MessageType
 import ru.skillbranch.devintensive.models.User
+import java.util.*
 
 class UserTest {
     /**
@@ -60,4 +61,38 @@ class UserTest {
         println(txtMessage.formatMessage())
         println(imgMessage.formatMessage())
     }
+
+    /**
+     * **Паттерн Builder
+     *  Необходимо реализовать Builder для класса User
+     *
+     *  Реализуй паттерн Builder для класса User.
+     *  User.Builder().id(s)
+     * .firstName(s)
+     * .lastName(s)
+     * .avatar(s)
+     * .rating(n)
+     * .respect(n)
+     * .lastVisit(d)
+     * .isOnline(b)
+     * .build() должен вернуть объект User
+     *
+     */
+
+    @Test
+    fun test_patternBuilder() {
+        val user = User.Builder().id("10")
+            .firstName("Bruce")
+            .lastName("Lee")
+            .avatar("url/avatar/")
+            .rating(5)
+            .respect(999)
+            .lastVisit(Date())
+            .isOnline(true)
+            .build()
+
+        println(user)
+    }
 }
+
+
