@@ -80,7 +80,8 @@ class UserTest {
 
     @Test
     fun test_patternBuilder() {
-        val user = User.Builder().id("10")
+        val user = User.Builder()
+            .id("10")
             .firstName("Bruce")
             .lastName("Lee")
             .avatar("url/avatar/")

@@ -91,14 +91,12 @@ enum class TimeUnits {
     DAY;
 
     fun plural(number: Int): String {
-        val timeUnit = when (super.name) {
-            "SECOND" -> TimeUnit.SECONDS
-            "MINUTE" -> TimeUnit.MINUTES
-            "HOUR" -> TimeUnit.HOURS
-            "DAY" -> TimeUnit.DAYS
-            else -> throw IllegalArgumentException()
+        val timeUnit = when (this) {
+            SECOND -> TimeUnit.SECONDS
+            MINUTE -> TimeUnit.MINUTES
+            HOUR -> TimeUnit.HOURS
+            DAY -> TimeUnit.DAYS
         }
-
         return toDecline(number, timeUnit)
     }
 }
