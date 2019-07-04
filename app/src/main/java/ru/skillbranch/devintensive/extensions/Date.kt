@@ -54,6 +54,13 @@ fun Date.humanizeDiff(date: Date = Date()): String {
 fun toDecline(number: Int, timeUnit: TimeUnit): String {
     val residue = number % 100
     return when (timeUnit) {
+
+        TimeUnit.SECONDS -> if (residue in 10..20) "$number секунд" else
+            when (residue % 10) {
+                1 -> "$number секунду"
+                in 2..4 -> "$number секунды"
+                else -> "$number секунд"
+            }
         TimeUnit.MINUTES -> if (residue in 10..20) "$number минут" else
             when (residue % 10) {
                 1 -> "$number минуту"
@@ -81,6 +88,18 @@ enum class TimeUnits {
     SECOND,
     MINUTE,
     HOUR,
-    DAY
+    DAY;
+
+    fun plural(number: Int): String {
+        val timeUnit = when (super.name) {
+            "SECOND" -> TimeUnit.SECONDS
+            "MINUTE" -> TimeUnit.MINUTES
+            "HOUR" -> TimeUnit.HOURS
+            "DAY" -> TimeUnit.DAYS
+            else -> throw IllegalArgumentException()
+        }
+
+        return toDecline(number, timeUnit)
+    }
 }
 
