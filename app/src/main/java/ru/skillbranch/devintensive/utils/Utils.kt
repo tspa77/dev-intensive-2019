@@ -17,7 +17,8 @@ object Utils {
 
     fun transliteration(payload: String, divider: String = " "): String {
         val fileName = System.getProperty("user.dir") +
-                "\\src\\main\\java\\ru\\skillbranch\\devintensive\\utils\\transliteration.txt"
+                "/src/main/java/ru/skillbranch/devintensive/utils/transliteration.txt"
+//                "\\src\\main\\java\\ru\\skillbranch\\devintensive\\utils\\transliteration.txt"
         val transMap = getTranslitMap(readFileAsLinesUsingReadLines(fileName))
 
         var transWord = ""

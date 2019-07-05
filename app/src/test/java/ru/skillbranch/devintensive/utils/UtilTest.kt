@@ -96,7 +96,8 @@ class UtilTest {
     @Test
     fun test_readFileAsLinesUsingReadLines() {
         val fileName = System.getProperty("user.dir") +
-                "\\src\\main\\java\\ru\\skillbranch\\devintensive\\utils\\transliteration.txt"
+//                "\\src\\main\\java\\ru\\skillbranch\\devintensive\\utils\\transliteration.txt"
+                "/src/main/java/ru/skillbranch/devintensive/utils/transliteration.txt"
 
         val lines = readFileAsLinesUsingReadLines(fileName)
 
