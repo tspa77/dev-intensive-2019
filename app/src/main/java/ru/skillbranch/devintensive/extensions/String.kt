@@ -7,10 +7,7 @@ fun String.truncate(length: Int = 16): String {
 }
 
 fun String.stripHtml(): String {
-
     var string = this.replace("\\s+".toRegex(), " ")
     string = string.replace("<[^>]*>".toRegex(), "")
-    println(string)
-
     return string
 }
