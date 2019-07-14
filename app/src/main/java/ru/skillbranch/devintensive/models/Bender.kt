@@ -1,17 +1,22 @@
 package ru.skillbranch.devintensive.models
 
+import android.util.Log
+
 class Bender(
     var status: Status = Status.NORMAL,
     var question: Question = Question.NAME
 ) {
 
-    fun askQuestion(): String = when (question) {
-        Question.NAME -> Question.NAME.question
-        Question.PROFESSION -> Question.PROFESSION.question
-        Question.MATERIAL -> Question.MATERIAL.question
-        Question.BDAY -> Question.BDAY.question
-        Question.SERIAL -> Question.SERIAL.question
-        Question.IDLE -> Question.IDLE.question
+    fun askQuestion(): String {
+        Log.d("askQuestion", "${status.name} ${status.color}")
+        return when (question) {
+            Question.NAME -> Question.NAME.question
+            Question.PROFESSION -> Question.PROFESSION.question
+            Question.MATERIAL -> Question.MATERIAL.question
+            Question.BDAY -> Question.BDAY.question
+            Question.SERIAL -> Question.SERIAL.question
+            Question.IDLE -> Question.IDLE.question
+        }
     }
 
 
@@ -19,15 +24,18 @@ class Bender(
 
         return if (question.answers.contains(answer)) {
             question = question.nextQuestion()
+            Log.d("listenAnswer", "${status.name} ${status.color}")
             "Отлично - ты справился\n${question.question}" to status.color
         } else {
             if (status == Status.CRITICAL) {
                 status = Status.NORMAL
                 question = Question.NAME
+                Log.d("listenAnswer", "${status.name} ${status.color}")
                 "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
             } else {
                 status = status.nextStatus()
-                "Это не правильный ответ\n${question.question}" to status.color
+                Log.d("listenAnswer", "${status.name} ${status.color}")
+                "Это неправильный ответ\n${question.question}" to status.color
             }
         }
     }
@@ -48,7 +56,7 @@ class Bender(
     }
 
     enum class Question(val question: String, val answers: List<String>) {
-        NAME("Как меня зовут?", listOf("бендер", "bender")) {
+        NAME("Как меня зовут?", listOf("Бендер", "bender")) {
             override fun nextQuestion(): Question = PROFESSION
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
