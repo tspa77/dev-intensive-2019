@@ -18,7 +18,7 @@ class Bender(
     fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
 
         return if (question.answers.contains(answer)) {
-            question = question.nextQuesition()
+            question = question.nextQuestion()
             "Отлично - это правильный ответ\n${question.question}" to status.color
         } else {
             status = status.nextStatus()
@@ -31,7 +31,7 @@ class Bender(
         NORMAL(Triple(255, 255, 255)),
         WARNING(Triple(255, 120, 0)),
         DANGER(Triple(255, 60, 60)),
-        CRITICAL(Triple(255, 255, 0));
+        CRITICAL(Triple(255, 0, 0));
 
         fun nextStatus(): Status {
             return if (this.ordinal < values().lastIndex) {
@@ -44,24 +44,24 @@ class Bender(
 
     enum class Question(val question: String, val answers: List<String>) {
         NAME("Как меня зовут?", listOf("бендер", "bender")) {
-            override fun nextQuesition(): Question = PROFESSION
+            override fun nextQuestion(): Question = PROFESSION
         },
         PROFESSION("Назови мою профессию", listOf("сгибальщик", "bender")) {
-            override fun nextQuesition(): Question = MATERIAL
+            override fun nextQuestion(): Question = MATERIAL
         },
         MATERIAL("Из чего я сделан?", listOf("металл", "metal", "iron")) {
-            override fun nextQuesition(): Question = BDAY
+            override fun nextQuestion(): Question = BDAY
         },
         BDAY("Когда меня создали?", listOf("2993")) {
-            override fun nextQuesition(): Question = SERIAL
+            override fun nextQuestion(): Question = SERIAL
         },
         SERIAL("Мой серийный номер?", listOf("2716057")) {
-            override fun nextQuesition(): Question = IDLE
+            override fun nextQuestion(): Question = IDLE
         },
         IDLE("На этом всё, вопросов больше нет", listOf()) {
-            override fun nextQuesition(): Question = PROFESSION
+            override fun nextQuestion(): Question = PROFESSION
         };
 
-        abstract fun nextQuesition(): Question
+        abstract fun nextQuestion(): Question
     }
 }
