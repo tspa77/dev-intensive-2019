@@ -21,6 +21,50 @@ class Bender(
 
 
     fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
+        var answer = answer
+
+        when (question) {
+            Question.NAME -> {
+                if (answer.first().isLowerCase()) {
+                    return "Имя должно начинаться с заглавной буквы\n${question.question}" to status.color
+                }
+            }
+            Question.PROFESSION -> {
+                if (answer.first().isUpperCase()) {
+                    return "Профессия должна начинаться со строчной буквы\n${question.question}" to status.color
+                }
+            }
+            Question.MATERIAL -> {
+                for (c in answer) {
+                    if (c.isDigit()){
+                        return "Материал не должен содержать цифр\n${question.question}" to status.color
+                    }
+                }
+            }
+            Question.BDAY -> {
+                for (c in answer) {
+                    if (!c.isDigit()){
+                        return "Год моего рождения должен содержать только цифры\n${question.question}" to status.color
+                    }
+                }
+            }
+            Question.SERIAL -> {
+                if (answer.length == 7) {
+                    for (c in answer) {
+                        if (!c.isDigit()) {
+                            return "Серийный номер содержит только цифры, и их 7\n${question.question}" to status.color
+                        }
+                    }
+                } else {
+                    return "Серийный номер содержит только цифры, и их 7\n${question.question}" to status.color
+                }
+            }
+            Question.IDLE -> {
+                return "На этом все, вопросов больше нет" to status.color
+            }
+        }
+
+        answer = answer.toLowerCase()
 
         return if (question.answers.contains(answer)) {
             question = question.nextQuestion()
@@ -56,7 +100,7 @@ class Bender(
     }
 
     enum class Question(val question: String, val answers: List<String>) {
-        NAME("Как меня зовут?", listOf("Бендер", "bender")) {
+        NAME("Как меня зовут?", listOf("бендер", "bender")) {
             override fun nextQuestion(): Question = PROFESSION
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
@@ -72,7 +116,7 @@ class Bender(
             override fun nextQuestion(): Question = IDLE
         },
         IDLE("На этом все, вопросов больше нет", listOf()) {
-            override fun nextQuestion(): Question = PROFESSION
+            override fun nextQuestion(): Question = IDLE
         };
 
         abstract fun nextQuestion(): Question

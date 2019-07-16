@@ -51,17 +51,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
         benderImage.setOnClickListener(this)
         messageEt.setOnEditorActionListener(this)
 
-//        messageEt.setOnEditorActionListener { v, actionId, event ->
-//            Log.d("M_MainActivity", "setOnEditorActionListener")
-//            if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                sendMessage()
-//                true
-//            } else {
-//                false
-//            }
-//        }
-
-
     }
 
     override fun onRestart() {
@@ -110,7 +99,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
             Log.d("M_MainActivity", "this.hideKeyboard()")
             this.hideKeyboard()
         }
-
     }
 
 
@@ -125,7 +113,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
 
 
     private fun sendMessage() {
-        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
+        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
         messageEt.setText("")
         val (r, g, b) = color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
