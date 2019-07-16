@@ -25,25 +25,25 @@ class Bender(
 
         when (question) {
             Question.NAME -> {
-                if (answer.first().isLowerCase()) {
+                if (answer.isBlank() || answer.first().isLowerCase()) {
                     return "Имя должно начинаться с заглавной буквы\n${question.question}" to status.color
                 }
             }
             Question.PROFESSION -> {
-                if (answer.first().isUpperCase()) {
+                if (answer.isBlank() || answer.first().isUpperCase()) {
                     return "Профессия должна начинаться со строчной буквы\n${question.question}" to status.color
                 }
             }
             Question.MATERIAL -> {
                 for (c in answer) {
-                    if (c.isDigit()){
+                    if (c.isDigit()) {
                         return "Материал не должен содержать цифр\n${question.question}" to status.color
                     }
                 }
             }
             Question.BDAY -> {
                 for (c in answer) {
-                    if (!c.isDigit()){
+                    if (!c.isDigit()) {
                         return "Год моего рождения должен содержать только цифры\n${question.question}" to status.color
                     }
                 }
