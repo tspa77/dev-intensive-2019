@@ -8,7 +8,7 @@ class Bender(
 ) {
 
     fun askQuestion(): String {
-        Log.d("askQuestion", "${status.name} ${status.color}")
+        Log.d("M_askQuestion", "${status.name} ${status.color}")
         return when (question) {
             Question.NAME -> Question.NAME.question
             Question.PROFESSION -> Question.PROFESSION.question
@@ -24,13 +24,13 @@ class Bender(
 
         return if (question.answers.contains(answer)) {
             question = question.nextQuestion()
-            Log.d("listenAnswer", "${status.name} ${status.color}")
+            Log.d("M_listenAnswer", "${status.name} ${status.color}")
             "Отлично - ты справился\n${question.question}" to status.color
         } else {
             if (status == Status.CRITICAL) {
                 status = Status.NORMAL
                 question = Question.NAME
-                Log.d("listenAnswer", "${status.name} ${status.color}")
+                Log.d("M_listenAnswer", "${status.name} ${status.color}")
                 "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
             } else {
                 status = status.nextStatus()
