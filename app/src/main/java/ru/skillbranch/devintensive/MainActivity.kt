@@ -1,17 +1,20 @@
 package ru.skillbranch.devintensive
 
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.models.Bender
+
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -45,6 +48,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
+        benderImage.setOnClickListener(this)
     }
 
     override fun onRestart() {
@@ -92,6 +96,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val (r, g, b) = color
             benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
             textTxt.text = phrase
+            this.hideKeyboard()
+
+        }
+
+        if (v?.id == R.id.iv_bender){
+            Log.d("M_MainActivity", "this.hideKeyboard()")
+            this.hideKeyboard()
+
 
         }
 
