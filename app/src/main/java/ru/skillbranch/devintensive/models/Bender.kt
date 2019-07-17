@@ -25,43 +25,31 @@ class Bender(
 
         when (question) {
             Question.NAME -> {
-                if (answer.isBlank() || answer.first().isLowerCase()) {
+                if (answer.isBlank() || answer.first().isLowerCase())
                     return "Имя должно начинаться с заглавной буквы\n${question.question}" to status.color
-                }
             }
             Question.PROFESSION -> {
-                if (answer.isBlank() || answer.first().isUpperCase()) {
+                if (answer.isBlank() || answer.first().isUpperCase())
                     return "Профессия должна начинаться со строчной буквы\n${question.question}" to status.color
-                }
             }
             Question.MATERIAL -> {
-                for (c in answer) {
-                    if (c.isDigit()) {
+                for (c in answer)
+                    if (c.isDigit())
                         return "Материал не должен содержать цифр\n${question.question}" to status.color
-                    }
-                }
             }
             Question.BDAY -> {
-                for (c in answer) {
-                    if (!c.isDigit()) {
+                for (c in answer)
+                    if (!c.isDigit())
                         return "Год моего рождения должен содержать только цифры\n${question.question}" to status.color
-                    }
-                }
             }
             Question.SERIAL -> {
                 if (answer.length == 7) {
-                    for (c in answer) {
-                        if (!c.isDigit()) {
+                    for (c in answer)
+                        if (!c.isDigit())
                             return "Серийный номер содержит только цифры, и их 7\n${question.question}" to status.color
-                        }
-                    }
-                } else {
-                    return "Серийный номер содержит только цифры, и их 7\n${question.question}" to status.color
-                }
+                } else return "Серийный номер содержит только цифры, и их 7\n${question.question}" to status.color
             }
-            Question.IDLE -> {
-                return "На этом все, вопросов больше нет" to status.color
-            }
+            Question.IDLE -> return "На этом все, вопросов больше нет" to status.color
         }
 
         answer = answer.toLowerCase()
@@ -91,11 +79,8 @@ class Bender(
         CRITICAL(Triple(255, 0, 0));
 
         fun nextStatus(): Status {
-            return if (this.ordinal < values().lastIndex) {
-                values()[this.ordinal + 1]
-            } else {
-                values()[0]
-            }
+            return if (this.ordinal < values().lastIndex) values()[this.ordinal + 1]
+                else values()[0]
         }
     }
 

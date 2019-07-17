@@ -1,5 +1,6 @@
 package ru.skillbranch.devintensive
 
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -10,9 +11,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.extensions.hideKeyboard
+import ru.skillbranch.devintensive.extensions.isKeyboardOpen
 import ru.skillbranch.devintensive.models.Bender
 
 
@@ -92,13 +95,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
     }
 
     override fun onClick(v: View?) {
-        if (v?.id == R.id.iv_send) {
-            sendMessage()
+        when(v?.id){
+            R.id.iv_send -> sendMessage()
+            R.id.iv_bender -> Toast.makeText(
+                this, "Keyboard open: ${this.isKeyboardOpen()}", Toast.LENGTH_SHORT).show()
         }
-        if (v?.id == R.id.iv_bender) {
-            Log.d("M_MainActivity", "this.hideKeyboard()")
-            this.hideKeyboard()
-        }
+
+
+//        if (v?.id == R.id.iv_send) {
+//            sendMessage()
+//        }
+//        if (v?.id == R.id.iv_bender) {
+//            Log.d("M_MainActivity", "this.hideKeyboard()")
+//            this.hideKeyboard()
+//        }
     }
 
 
