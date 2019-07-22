@@ -6,6 +6,5 @@ class BenderTest {
 
     @Test
     fun test_listenAnswer(){
-
     }
 }
