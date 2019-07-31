@@ -2,15 +2,16 @@ package ru.skillbranch.devintensive.ui.custom
 
 
 import android.content.Context
-import android.graphics.*
-import android.graphics.Bitmap.Config
-import android.graphics.PorterDuff.Mode
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+import android.content.res.Resources
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
+import android.util.Log
 import android.widget.ImageView
 import ru.skillbranch.devintensive.R
-import kotlin.math.min
+import kotlin.math.max
 
 
 class CircleImageView @JvmOverloads constructor(
@@ -24,78 +25,55 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     private var borderColor = DEFAULT_BORDER_COLOR
-    private var borderWidth = DEFAULT_BORDER_WIDTH
-
+    private var borderWidth = (DEFAULT_BORDER_WIDTH * resources.displayMetrics.density).toInt()
 
 
     init {
         if (attrs != null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
 
+            val dp = resources.displayMetrics.density
+            Log.d("M_CircleImageView","$dp dp")
+            borderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, (DEFAULT_BORDER_WIDTH * dp).toInt())
             borderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
-            borderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
 
             a.recycle()
+
         }
     }
 
 
-
-    /*
-    Следующие 2 методы взяты чуть более чем полностью отсюда:
-    https://gist.github.com/melanke/7158342
-     */
     override fun onDraw(canvas: Canvas) {
 
-        val drawable: Drawable? = drawable
+        //создаем круг
+        Log.d("M_CircleImageView","$width width")
+        val halfWidth = width / 2f
+        val halfHeight = height / 2f
+        val radius = max(halfWidth, halfHeight)
+        Log.d("M_CircleImageView","$radius radius")
+        val path = Path()
+        path.addCircle(halfWidth, halfHeight, radius, Path.Direction.CCW)
 
-        if ((drawable == null) && (width == 0 || height == 0)) {
-            return
-        }
+        //обрезаем
+        canvas.clipPath(path)
 
-        val b = (drawable as BitmapDrawable).bitmap
-        val bitmap = b.copy(Config.ARGB_8888, true)
+        super.onDraw(canvas)
 
-        val w = width
-//        val h = height
 
-        val roundBitmap = getCroppedBitmap(bitmap, w)
-        canvas.drawBitmap(roundBitmap, 0f, 0f, null)
+        // делаем бордюр
+        val borderPaint = Paint()
+        borderPaint.isAntiAlias = true
+        borderPaint.style = Paint.Style.STROKE
+        borderPaint.color = DEFAULT_BORDER_COLOR
+        borderPaint.strokeWidth = DEFAULT_BORDER_WIDTH.toFloat()
+        Log.d("M_CircleImageView","${borderPaint.strokeWidth} borderPaint.strokeWidth")
+
+
+        //рисуем
+        canvas.drawCircle(halfWidth, halfHeight, radius, borderPaint)
+
 
     }
 
-    fun getCroppedBitmap(bmp: Bitmap, radius: Int): Bitmap {
-        val sbmp: Bitmap
-
-        sbmp = if (bmp.width != radius || bmp.height != radius) {
-            val smallest = min(bmp.width, bmp.height).toFloat()
-            val factor = smallest / radius
-            Bitmap.createScaledBitmap(bmp, (bmp.width / factor).toInt(), (bmp.height / factor).toInt(), false)
-        } else {
-            bmp
-        }
-
-        val output = Bitmap.createBitmap(radius, radius, Config.ARGB_8888)
-        val canvas = Canvas(output)
-
-        val paint = Paint()
-        val rect = Rect(0, 0, radius, radius)
-
-        paint.isAntiAlias = true
-        paint.isFilterBitmap = true
-        paint.isDither = true
-        canvas.drawARGB(0, 0, 0, 0)
-        paint.color = Color.parseColor("#BAB399")
-        canvas.drawCircle(
-            radius / 2 + 0.7f,
-            radius / 2 + 0.7f,
-            radius / 2 + 0.1f,
-            paint
-        )
-        paint.xfermode = PorterDuffXfermode(Mode.SRC_IN)
-        canvas.drawBitmap(sbmp, rect, rect, paint)
-
-        return output
-    }
 
 }
