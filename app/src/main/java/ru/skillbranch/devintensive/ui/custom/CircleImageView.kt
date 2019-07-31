@@ -1,15 +1,16 @@
 package ru.skillbranch.devintensive.ui.custom
 
+
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
+import android.graphics.*
+import android.graphics.Bitmap.Config
+import android.graphics.PorterDuff.Mode
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.ImageView
 import ru.skillbranch.devintensive.R
-
-import android.graphics.Paint
-import androidx.annotation.ColorRes
-import androidx.annotation.Dimension
+import kotlin.math.min
 
 
 class CircleImageView @JvmOverloads constructor(
@@ -25,7 +26,6 @@ class CircleImageView @JvmOverloads constructor(
     private var borderColor = DEFAULT_BORDER_COLOR
     private var borderWidth = DEFAULT_BORDER_WIDTH
 
-    private var circlePaint = Paint()
 
 
     init {
@@ -39,63 +39,63 @@ class CircleImageView @JvmOverloads constructor(
         }
     }
 
-//    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-//    }
 
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
 
-        if (canvas == null) return
+    /*
+    Следующие 2 методы взяты чуть более чем полностью отсюда:
+    https://gist.github.com/melanke/7158342
+     */
+    override fun onDraw(canvas: Canvas) {
 
-        //paint object for drawing in onDraw
-        circlePaint = Paint()
-        circlePaint.isAntiAlias = true
+        val drawable: Drawable? = drawable
 
-        //get half of the width and height as we are working with a circle
-        val viewWidthHalf = this.getMeasuredWidth() / 2
-        val viewHeightHalf = this.getMeasuredHeight() / 2
+        if ((drawable == null) && (width == 0 || height == 0)) {
+            return
+        }
 
-        //get the radius as half of the width or height, whichever is smaller
-        //subtract ten so that it has some space around it
-        var radius = if (viewWidthHalf > viewHeightHalf) viewHeightHalf else viewWidthHalf
+        val b = (drawable as BitmapDrawable).bitmap
+        val bitmap = b.copy(Config.ARGB_8888, true)
 
-        canvas.drawCircle(viewWidthHalf.toFloat(), viewHeightHalf.toFloat(), radius.toFloat(), circlePaint)
+        val w = width
+//        val h = height
 
+        val roundBitmap = getCroppedBitmap(bitmap, w)
+        canvas.drawBitmap(roundBitmap, 0f, 0f, null)
 
     }
 
+    fun getCroppedBitmap(bmp: Bitmap, radius: Int): Bitmap {
+        val sbmp: Bitmap
 
-//    //@Dimension
-//    fun getBorderWidth() = borderWidth
-//
-//    //@Dimension
-//    fun setBorderWidth(dp: Int) {
-//        if (dp != borderWidth){
-//            borderWidth = dp
-//            setup()
-//        }
-//    }
-//
-//    fun getBorderColor() = borderColor
-//
-//
-//    fun setBorderColor(@ColorRes colorId: Int) {
-//        setIntBorderColor(resources.getColor(colorId, context.theme))
-//    }
-//
-//    fun setBorderColor(hex:String){
-//        setIntBorderColor(Integer.parseInt(hex,16))
-//    }
-//
-//
-//    fun setIntBorderColor(color: Int) {
-//        if (color != borderColor) {
-//            borderColor = color
-//            borderPaint.color = borderColor
-//            invalidate()
-//        }
-//    }
+        sbmp = if (bmp.width != radius || bmp.height != radius) {
+            val smallest = min(bmp.width, bmp.height).toFloat()
+            val factor = smallest / radius
+            Bitmap.createScaledBitmap(bmp, (bmp.width / factor).toInt(), (bmp.height / factor).toInt(), false)
+        } else {
+            bmp
+        }
 
+        val output = Bitmap.createBitmap(radius, radius, Config.ARGB_8888)
+        val canvas = Canvas(output)
+
+        val paint = Paint()
+        val rect = Rect(0, 0, radius, radius)
+
+        paint.isAntiAlias = true
+        paint.isFilterBitmap = true
+        paint.isDither = true
+        canvas.drawARGB(0, 0, 0, 0)
+        paint.color = Color.parseColor("#BAB399")
+        canvas.drawCircle(
+            radius / 2 + 0.7f,
+            radius / 2 + 0.7f,
+            radius / 2 + 0.1f,
+            paint
+        )
+        paint.xfermode = PorterDuffXfermode(Mode.SRC_IN)
+        canvas.drawBitmap(sbmp, rect, rect, paint)
+
+        return output
+    }
 
 }
