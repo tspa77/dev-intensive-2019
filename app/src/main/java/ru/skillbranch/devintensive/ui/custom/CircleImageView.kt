@@ -33,8 +33,10 @@ class CircleImageView @JvmOverloads constructor(
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
 
             val dp = resources.displayMetrics.density
-            Log.d("M_CircleImageView","$dp dp")
+            Log.d("M_CircleImageView","dp = $dp ")
+            Log.d("M_CircleImageView","(DEFAULT_BORDER_WIDTH * dp).toInt() = ${(DEFAULT_BORDER_WIDTH * dp).toInt()}")
             borderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, (DEFAULT_BORDER_WIDTH * dp).toInt())
+            Log.d("M_CircleImageView","borderWidth = $borderWidth")
             borderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
 
             a.recycle()
@@ -65,7 +67,7 @@ class CircleImageView @JvmOverloads constructor(
         borderPaint.isAntiAlias = true
         borderPaint.style = Paint.Style.STROKE
         borderPaint.color = DEFAULT_BORDER_COLOR
-        borderPaint.strokeWidth = DEFAULT_BORDER_WIDTH.toFloat()
+        borderPaint.strokeWidth = borderWidth.toFloat()
         Log.d("M_CircleImageView","${borderPaint.strokeWidth} borderPaint.strokeWidth")
 
 
