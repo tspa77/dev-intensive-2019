@@ -29,6 +29,7 @@ class ProfileActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         initViewModel()
@@ -42,6 +43,7 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
+    /* Получение класса для ViewModel */
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
@@ -62,6 +64,7 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
+    /* Инициализация views */
     private fun initViews(savedInstanceState: Bundle?) {
         viewFields = mapOf(
             "nickName" to tv_nick_name,
@@ -77,6 +80,7 @@ class ProfileActivity : AppCompatActivity() {
         isEditMode = savedInstanceState?.getBoolean(IS_EDIT_MODE, false) ?: false
         showCurrentMode(isEditMode)
 
+        /* Сохранение информации в профиль */
         btn_edit.setOnClickListener {
             if (isEditMode) saveProfileInfo()
             isEditMode = !isEditMode
@@ -89,6 +93,7 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
+    /* Отобразить текущий режим */
     private fun showCurrentMode(isEdit: Boolean) {
         val info = viewFields.filter {
             setOf("firstName", "lastName", "about", "repository").contains(it.key)
@@ -116,11 +121,8 @@ class ProfileActivity : AppCompatActivity() {
 
             val icon = if (isEdit) {
                 resources.getDrawable(R.drawable.ic_save_black_24dp, theme)
-                //TODO add themes
-
             } else {
                 resources.getDrawable(R.drawable.ic_edit_black_24dp, theme)
-
             }
 
             background.colorFilter = filter
@@ -129,6 +131,7 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
+    /* Сохранение данных */
     private fun saveProfileInfo() {
         Profile(
             firstName = et_first_name.text.toString(),
