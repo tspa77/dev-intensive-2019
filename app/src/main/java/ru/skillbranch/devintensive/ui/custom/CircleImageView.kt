@@ -10,8 +10,12 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.util.Log
 import android.widget.ImageView
+import androidx.annotation.ColorRes
+import androidx.annotation.Dimension
+import androidx.core.content.ContextCompat
 import ru.skillbranch.devintensive.R
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 
 class CircleImageView @JvmOverloads constructor(
@@ -26,17 +30,19 @@ class CircleImageView @JvmOverloads constructor(
 
     private var borderColor = DEFAULT_BORDER_COLOR
     private var borderWidth = (DEFAULT_BORDER_WIDTH * resources.displayMetrics.density).toInt()
+    private val dp = resources.displayMetrics.density
 
 
     init {
         if (attrs != null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
 
-            val dp = resources.displayMetrics.density
-            Log.d("M_CircleImageView","dp = $dp ")
-            Log.d("M_CircleImageView","(DEFAULT_BORDER_WIDTH * dp).toInt() = ${(DEFAULT_BORDER_WIDTH * dp).toInt()}")
-            borderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, (DEFAULT_BORDER_WIDTH * dp).toInt())
-            Log.d("M_CircleImageView","borderWidth = $borderWidth")
+
+            Log.d("M_CircleImageView", "dp = $dp ")
+            Log.d("M_CircleImageView", "(DEFAULT_BORDER_WIDTH * dp).toInt() = ${(DEFAULT_BORDER_WIDTH * dp).toInt()}")
+            borderWidth =
+                a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, (DEFAULT_BORDER_WIDTH * dp).toInt())
+            Log.d("M_CircleImageView", "borderWidth = $borderWidth")
             borderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
 
             a.recycle()
@@ -48,11 +54,11 @@ class CircleImageView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
 
         //создаем круг
-        Log.d("M_CircleImageView","$width width")
+        Log.d("M_CircleImageView", "$width width")
         val halfWidth = width / 2f
         val halfHeight = height / 2f
         val radius = max(halfWidth, halfHeight)
-        Log.d("M_CircleImageView","$radius radius")
+        Log.d("M_CircleImageView", "$radius radius")
         val path = Path()
         path.addCircle(halfWidth, halfHeight, radius, Path.Direction.CCW)
 
@@ -68,7 +74,7 @@ class CircleImageView @JvmOverloads constructor(
         borderPaint.style = Paint.Style.STROKE
         borderPaint.color = DEFAULT_BORDER_COLOR
         borderPaint.strokeWidth = borderWidth.toFloat()
-        Log.d("M_CircleImageView","${borderPaint.strokeWidth} borderPaint.strokeWidth")
+        Log.d("M_CircleImageView", "${borderPaint.strokeWidth} borderPaint.strokeWidth")
 
 
         //рисуем
@@ -77,5 +83,23 @@ class CircleImageView @JvmOverloads constructor(
 
     }
 
+    fun getBorderColor(): Int = borderColor
+
+    fun setBorderColor(hex: String) {
+        val color = Color.parseColor(hex)
+        borderColor = color
+    }
+
+    fun setBorderColor(@ColorRes colorId: Int) {
+        val color = ContextCompat.getColor(context, colorId)
+        borderColor = color
+    }
+
+    @Dimension
+    fun getBorderWidth(): Int = (borderWidth / dp).roundToInt()
+
+    fun setBorderWidth(@Dimension dp: Int) {
+        borderWidth = (dp * this.dp).toInt()
+    }
 
 }
