@@ -3,8 +3,9 @@ package ru.skillbranch.devintensive.utils
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import ru.skillbranch.devintensive.utils.Utils.getTranslitMap
-import ru.skillbranch.devintensive.utils.Utils.readFileAsLinesUsingReadLines
+import ru.skillbranch.devintensive.utils.Utils.urlRepoValidation
+//import ru.skillbranch.devintensive.utils.Utils.getTranslitMap
+//import ru.skillbranch.devintensive.utils.Utils.readFileAsLinesUsingReadLines
 import ru.skillbranch.devintensive.utils.Utils.transliteration
 
 class UtilTest {
@@ -94,14 +95,23 @@ class UtilTest {
 
 
     @Test
-    fun test_readFileAsLinesUsingReadLines() {
-        val fileName = System.getProperty("user.dir") +
-//                "\\src\\main\\java\\ru\\skillbranch\\devintensive\\utils\\transliteration.txt"
-                "/src/main/java/ru/skillbranch/devintensive/utils/transliteration.txt"
+    fun test_gitValidation() {
+        assertEquals(true, urlRepoValidation("https://github.com/johnDoe"))
+        assertEquals(true, urlRepoValidation("https://www.github.com/johnDoe"))
+        assertEquals(true, urlRepoValidation("www.github.com/johnDoe"))
+        assertEquals(true, urlRepoValidation("github.com/johnDoe"))
+        assertEquals(true, urlRepoValidation(""))
+        assertEquals(false, urlRepoValidation(" "))
+        assertEquals(false, urlRepoValidation("https://anyDomain.github.com/johnDoe"))
+        assertEquals(false, urlRepoValidation("https://github.com/"))
+        assertEquals(false, urlRepoValidation("https://github.com"))
+        assertEquals(false, urlRepoValidation("https://github.com/johnDoe/tree"))
+        assertEquals(false, urlRepoValidation("https://github.com/johnDoe/tree/something"))
+        assertEquals(false, urlRepoValidation("https://github.com/enterprise"))
+        assertEquals(false, urlRepoValidation("https://github.com/pricing"))
+        assertEquals(false, urlRepoValidation("https://github.com/join"))
 
-        val lines = readFileAsLinesUsingReadLines(fileName)
 
-        getTranslitMap(lines)
     }
 
 
@@ -124,24 +134,10 @@ class UtilTest {
         assertEquals("", transliteration("", "*"))
         assertEquals("*", transliteration(" ", "*"))
         assertEquals("Zhenya Stereotipov", transliteration("Женя Стереотипов"))
-        assertEquals("Amazing_Petr", transliteration("Amazing Петр","_"))
-        assertEquals("Pavel`Senyor`Cigankov", transliteration("Павел Senyor Цыганков","`"))
+        assertEquals("Amazing_Petr", transliteration("Amazing Петр", "_"))
+        assertEquals("Pavel`Senyor`Cigankov", transliteration("Павел Senyor Цыганков", "`"))
     }
 
 
-    /**
-     *
-     * *String.truncate
-     * Необходимо реализовать метод truncate усекающий исходную строку до указанного числа символов и добавляющий
-     * заполнитель "..." в конец строки
-     *
-     * Реализуй extension усекающий исходную строку до указанного числа символов (по умолчанию 16) и возвращающий
-     * усеченную строку с заполнителем "..." (если строка была усечена) если последний символ усеченной строки является
-     * пробелом - удалить его и добавить заполнитель
-     * Пример:
-     * "Bender Bending Rodriguez — дословно «Сгибальщик Сгибающий Родригес»".truncate() //Bender Bending R...
-     * "Bender Bending Rodriguez — дословно «Сгибальщик Сгибающий Родригес»".truncate(15) //Bender Bending...
-     * "A     ".truncate(3) //A
 
-     */
 }

@@ -10,7 +10,7 @@ data class Profile(
     val rating: Int = 0,
     val respect: Int = 0
 ) {
-    val nickName: String
+    var nickName: String = "test_test"
         get() = transliteration("$firstName $lastName", "_")
     val rank: String = "Junior Android Developer"
 

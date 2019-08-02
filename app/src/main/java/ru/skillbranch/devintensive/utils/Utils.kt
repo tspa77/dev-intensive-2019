@@ -1,7 +1,5 @@
 package ru.skillbranch.devintensive.utils
 
-import java.io.File
-
 
 object Utils {
     fun parseFullName(fullName: String?): Pair<String?, String?> {
@@ -15,13 +13,11 @@ object Utils {
         }
     }
 
-    fun transliteration(payload: String, divider: String = " "): String {
-//        val fileName = System.getProperty("user.dir") +
-//                "/src/main/java/ru/skillbranch/devintensive/utils/transliteration.txt"
-//        val transMap = getTranslitMap(readFileAsLinesUsingReadLines(fileName))
 
-        /* Определение словаря */
-        val transMap = hashMapOf(
+    fun transliteration(payload: String, divider: String = " "): String {
+
+        /* Определение словаря*/
+        val dictMap = hashMapOf(
             'а' to "a",
             'б' to "b",
             'в' to "v",
@@ -58,13 +54,14 @@ object Utils {
             ' ' to divider
         )
 
+
         var transWord = ""
         for (c in payload) {
             transWord += when (c.toLowerCase()) {
-                in transMap.keys ->
-                    if (c.isLowerCase()) transMap[c] else
-                        "${transMap[c.toLowerCase()]?.first()?.toUpperCase()}" +
-                                "${transMap[c.toLowerCase()]?.substring(1)}"
+                in dictMap.keys ->
+                    if (c.isLowerCase()) dictMap[c] else
+                        "${dictMap[c.toLowerCase()]?.first()?.toUpperCase()}" +
+                                "${dictMap[c.toLowerCase()]?.substring(1)}"
                 ' ' -> divider
                 else -> c
             }
@@ -81,25 +78,37 @@ object Utils {
         }
     }
 
+
     fun getFirstUpperCaseLetter(word: String?) =
         if (word.isNullOrBlank()) "" else word.trim().first().toUpperCase().toString()
 
 
-    fun readFileAsLinesUsingReadLines(fileName: String): List<String> = File(fileName).readLines()
+    fun urlRepoValidation(string: String): Boolean {
+        if (string.isEmpty()) return true
 
+        val exclude = listOf(
+            "enterprise",
+            "features",
+            "topics",
+            "collections",
+            "trending",
+            "events",
+            "marketplace",
+            "pricing",
+            "nonprofit",
+            "customer-stories",
+            "security",
+            "login",
+            "join"
+        )
 
-    fun getTranslitMap(list: List<String>): Map<Char, String> {
-        val myMap = mutableMapOf<Char, String>()
-        for (s in list) {
-            if (!s.isBlank()) {
-                val (key, value) = s.replace("\"", "").split(": ")
-                myMap[key.single()] = value.dropLast(1)
-            }
+        for (word in exclude) {
+            if (string.contains(word)) return false
         }
-        return myMap.toMap()
+
+        val regex = """(https://)?(www.)?github.com/(\w*[^/])""".toRegex()
+        return regex.matches(string)
     }
-
-
 }
 
 

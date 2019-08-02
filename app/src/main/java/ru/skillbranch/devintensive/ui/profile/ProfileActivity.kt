@@ -4,6 +4,8 @@ import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -15,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_profile_constraint.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 
@@ -82,7 +85,10 @@ class ProfileActivity : AppCompatActivity() {
 
         /* Сохранение информации в профиль */
         btn_edit.setOnClickListener {
-            if (isEditMode) saveProfileInfo()
+            if (isEditMode) {
+                etRepoValidation()
+                saveProfileInfo()
+            }
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
         }
@@ -91,6 +97,26 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.switchTheme()
         }
 
+        et_repository.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (!Utils.urlRepoValidation(p0.toString()))
+                    wr_repository.error = "Невалидный адрес репозитория"
+                else
+                    wr_repository.error = null
+            }
+        })
+
+
+    }
+
+    private fun etRepoValidation() {
+        if (wr_repository.error != null) {
+            et_repository.setText("")
+        }
     }
 
     /* Отобразить текущий режим */
