@@ -54,7 +54,6 @@ object Utils {
             ' ' to divider
         )
 
-
         var transWord = ""
         for (c in payload) {
             transWord += when (c.toLowerCase()) {
