@@ -12,7 +12,7 @@
             android:theme="@style/SplashTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.profile.ProfileActivity"
-                  android:windowSoftInputMode="adjustResize">
+                  android:windowSoftInputMode="adjustPan">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
