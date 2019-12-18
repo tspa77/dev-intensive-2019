@@ -3,5 +3,5 @@ build/
 libs/
 .idea/
 *.iml
-# src/test/ тесты нужны для синхронизации со 2-м ПК
+src/test/
 src/androidTest
