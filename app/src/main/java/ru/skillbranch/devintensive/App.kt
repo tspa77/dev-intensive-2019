@@ -5,21 +5,23 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import ru.skillbranch.devintensive.repositories.PreferencesRepository
 
-class App: Application() {
-	
-	companion object {
-		private var instance: App? = null
-		
-		fun applicationContext(): Context = instance!!.applicationContext
-	}
-	
-	init {
-		instance = this
-	}
-	
-	override fun onCreate() {
-		super.onCreate()
-		AppCompatDelegate.setDefaultNightMode(PreferencesRepository.getAppTheme())
-	}
-	
+class App : Application() {
+    companion object {
+        private var instanse:App? = null
+
+        fun applicationContext(): Context {
+            return instanse!!.applicationContext
+        }
+    }
+
+    init {
+        instanse = this
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        PreferencesRepository.getAppTheme().also {
+            AppCompatDelegate.setDefaultNightMode(it)
+        }
+    }
 }

@@ -1,10 +1,13 @@
 package ru.skillbranch.devintensive.extensions
 
-fun String.truncate(limit: Int = 16): String {
-	val trimmedString = this.trim()
-	if (trimmedString.length <= limit - 1) return trimmedString
-	val substr = trimmedString.substring(0 until limit).trim()
-	return "$substr..."
-}
+fun String.truncate(newsize:Int=16) =
+    if (this.trim().length>newsize)
+        this.trim().dropLast(this.trim().length-newsize).trim()+"..."
+    else this.trim()
 
-fun String.stripHtml(): String = this.replace(Regex("(<(.|\\n)+?>)|(&quot;)|(&amp;)|(&gt;)|(&lt;)"), "").replace(Regex("\\s+"), " ")
+fun String.trimDoubleWhitespace() = this.replace(" {2,}".toRegex(), " ")
+
+fun String.stripHtml() = this
+    .replace("<[^>]+>".toRegex(), "")
+    .replace("&[a-z;#\\d]+;".toRegex(), "")
+    .trimDoubleWhitespace()

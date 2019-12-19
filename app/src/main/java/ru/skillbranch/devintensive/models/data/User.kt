@@ -4,55 +4,64 @@ import ru.skillbranch.devintensive.extensions.humanizeDiff
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
-data class User(
-        val id: String,
-        var firstName: String?,
-        var lastName: String?,
-        var avatar: String?,
-        var rating: Int = 0,
-        var respect: Int = 0,
-        var lastVisit: Date? = Date(),
-        var isOnline: Boolean = false
-) {
+data class User (
+    val id: String,
+    var firstName: String?,
+    var lastName: String?,
+    var avatar: String?,
+    var rating: Int = 0,
+    var respect: Int = 0,
+    val lastVisit: Date? = null,
+    val isOnline: Boolean = false
+){
     fun toUserItem(): UserItem {
         val lastActivity = when {
-            // Ээээ... Хардкод строк? Весело, если не забуду - поменяю TODO
-            lastVisit == null -> "Еще ни разу не заходил"
-            isOnline -> "online"
-            else -> "Последний раз был ${lastVisit?.humanizeDiff() ?: "никогда"}"
-        }
-
+                lastVisit == null -> "Еще ни разу не заходил"
+                isOnline -> "Онлайн"
+                else -> "Последний раз был ${lastVisit.humanizeDiff()}"
+            }
         return UserItem(
-                id,
-                "${firstName.orEmpty()} ${lastName.orEmpty()}",
-                Utils.toInitials(firstName, lastName),
-                avatar,
-                lastActivity,
-                false,
-                isOnline
+            id,
+            "${firstName.orEmpty()} ${lastName.orEmpty()}",
+            Utils.toInitials(firstName, lastName).orEmpty(),
+            avatar,
+            lastActivity,
+            false,
+            isOnline
         )
     }
 
-    constructor(id: String, firstName: String?, lastName: String?) : this(id, firstName, lastName, null)
+    constructor(id: String, firstName: String?, lastName: String?): this (
+        id = id,
+        firstName = firstName,
+        lastName = lastName,
+        avatar = null)
+    constructor(id: String) : this (id, "John", "Doe")
 
-    companion object Factory {
+    companion object Factory{
         private var lastId = -1
-        fun makeUser(fullName: String?): User {
-            ++lastId
+        fun makeUser(fullName:String?) : User {
             val (firstName, lastName) = Utils.parseFullName(fullName)
-            return User(lastId.toString(), firstName, lastName)
+
+            return User(
+                "${takeNextId()}",
+                firstName,
+                lastName
+            )
         }
+
+        fun takeNextId() = "${++lastId}"
     }
 
-    class Builder {
-        var id: String? = null
-        var firstName: String? = null
-        var lastName: String? = null
-        var avatar: String? = null
-        var rating: Int = 0
-        var respect: Int = 0
-        var lastVisit: Date? = Date()
-        var isOnline: Boolean = false
+    class Builder() {
+        private var id: String? = null
+        private var firstName: String? = null
+        private var lastName: String? = null
+        private var avatar: String? = null
+        private var rating: Int = 0
+        private var respect: Int = 0
+        private var lastVisit: Date? = null
+        private var isOnline: Boolean = false
 
         fun id(id: String): Builder {
             this.id = id
@@ -94,10 +103,16 @@ data class User(
             return this
         }
 
-        fun build(): User {
-            return User(id
-                    ?: (++lastId).toString(), firstName, lastName, avatar, rating, respect, lastVisit, isOnline)
-        }
+        fun build(): User =
+            User(
+                id = this.id ?: takeNextId(),
+                firstName = this.firstName,
+                lastName = this.lastName,
+                avatar = this.avatar,
+                rating = this.rating,
+                respect = this.respect,
+                lastVisit = this.lastVisit,
+                isOnline = this.isOnline
+            )
     }
-
 }
